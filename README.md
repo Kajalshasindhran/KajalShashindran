@@ -1,2 +1,0 @@
-# KajalShashindran
-ITCareerSwitch Projects
