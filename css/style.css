@@ -1,0 +1,19 @@
+.header {
+    text-align: center;
+}
+
+.main table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.main td {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: center;
+}
+
+.main .first-col {
+    text-align: left;
+}
+
