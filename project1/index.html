@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Gazetter - Kajal Shashindran</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="favicon.ico" rel="icon">
+  <link href="css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/leaflet.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/easy-button.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.Default.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-extra-markers/1.2.1/css/leaflet.extra-markers.min.css">
+</head>
+
+<body>
+    <div class="select-container">
+        <select name = "countries" id="selectCountry" class="form-select shadow-sm">
+            <option value="">Select Country</option>
+        </select>
+    </div>
+
+    <div id="map"></div>
+
+    <!--Country Info model-->
+    <div class="modal" id="countryInfo" tabindex="-1" data-bs-backdrop="false">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content shadow">
+                <div class="modal-header bg-danger bg-gradient text-white">
+                    <h5 class="modal-title">Country Information</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped">
+                        <tr>
+                            <td class="text-center">
+                                <i class="fa-solid fa-flag fa-xl text-dark"></i>
+                            </td>
+              
+                            <td>Country Name:</td>
+              
+                            <td class="text-end" id="txtCountry"></td>
+              
+                        </tr>
+                        <tr>
+              
+                            <td class="text-center">
+                                <i class="fa-solid fa-building fa-xl text-dark"></i>
+                            </td>
+              
+                            <td>Capital:</td>
+              
+                            <td class="text-end" id="txtCapital"></td>
+              
+                        </tr>
+                        <tr>
+              
+                            <td class="text-center">
+                                <i class="fa-solid fa-map fa-xl text-dark"></i>
+                            </td>
+              
+                            <td>Area:</td>
+              
+                            <td class="text-end" id="txtAreaInSqKm"></td>
+              
+                        </tr>
+                        <tr>
+              
+                            <td class="text-center">
+                                <i class="fa-solid fa-globe fa-xl text-dark"></i>
+                            </td>
+              
+                            <td>Continent:</td>
+              
+                            <td class="text-end" id="txtContinent"></td>
+              
+                        </tr>
+                        <tr>
+              
+                            <td class="text-center">
+                                <i class="fa-solid fa-users fa-xl text-dark"></i>
+                            </td>
+              
+                          <td>Population:</td>
+              
+                          <td class="text-end" id="txtPopulation"></td>
+              
+                        </tr>
+                        <tr>
+              
+                            <td class="text-center">
+                                <i class="fa-solid fa-language fa-xl text-dark"></i>
+                            </td>
+              
+                            <td>Languages:</td>
+              
+                            <td class="text-end" id="txtLanguages"></td>
+              
+                        </tr>
+                        <tr>
+              
+                            <td class="text-center">
+                                <i class="fa-solid fa-coins fa-xl text-dark"></i>
+                            </td>
+              
+                            <td>Currency:</td>
+              
+                            <td class="text-end" id="txtCurrency"></td>
+              
+                        </tr> 
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Weather Model-->
+
+    <div class="modal" id="weatherInfo" tabindex="-1" data-bs-backdrop="false">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content shadow">
+                <div class="modal-header bg-danger bg-gradient text-white">
+                    <h5 class="modal-title">Weather Information</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col bg-light">
+                            <h5 class="mt-2 text-danger">Today:</h5>
+                            <p><span id="highestWeatherToday" class="display-4"></span>°C<span id="icon-1" class="float-end"></span></p>
+                            <p class="text-center fs-4" id="description-1"></p> 
+                        </div>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col bg-light">
+                            <h6 id="tomorrowDate" class="mt-2 text-danger"></h6>
+                            <p>Highest: <span id="highestWeatherT"></span>°C <i class="fas fa-cloud-sun float-end"></i></p>
+                            <p>Lowest: <span id="lowestWeatherT"></span>°C <i class="fas fa-cloud float-end"></i></p>
+                        </div>
+                    
+                        <div class="col bg-light">
+                          <h6 id="dayafterTommorrowDate" class="mt-2 text-danger"></h6>
+                          <p>Highest: <span id="highestWeatherDT"></span>°C <i class="fas fa-cloud-sun float-end"></i></p>
+                          <p>Lowest: <span id="lowestWeatherDT"></span>°C <i class="fas fa-cloud float-end"></i></p>
+                        </div>
+                    </div>   
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--Wiki Model-->
+    <div class="modal" id="wikiInfo" tabindex="-1" data-bs-backdrop="false">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content shadow">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">WikiPedia Information</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="wiki-content text-center">
+                        <span id="txtWikiImg"></span>
+                        <span id="txtWiki"></span>
+                        <span id="txtLink"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Exchange Rate Model-->
+    <div class="modal" id="exchangeInfo" tabindex="-1" data-bs-backdrop="false">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content shadow">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">Exchange Rate</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="exchange-content fs-6">
+                        <p>Currency Name: <span id="txtcurrencyName" class="float-end"></span></p>
+                        <hr>
+                        <p>Currency Code: <span id="txtcurrencyCode" class="float-end"></span></p>
+                        <hr>
+                        <p>Currency Symbol: <span id="txtcurrencySymbol" class="float-end"></span></p>
+                        <hr>
+                    </div>
+                    <table class="table table-hover fs-5 bg-light">
+                        <tr>
+                            <td scope="row" class="text-center col-2"><i class="fa-solid fa-dollar-sign text-danger"></i></td>
+                            <td class="text-nowrap">Exchange Rate:</td>
+                            <td class="text-end">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text text-success">$</span>
+                                    </div>
+                                    <input id="CurrencyExchangeInput" type="number" class="form-control" value="1" min="1" step="1" placeholder="value">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="row" class="text-center col-2"><i class="fa-solid fa-equals text-danger"></i></td>
+                            <td class="text-nowrap">Current Value:</td>
+                            <td class="text-end">
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text text-success" id="currencySymbol"></span>
+                                </div>
+                                <input type="text" class="form-control" id="CurrencyExchangeResult" type="number" placeholder="value in USD" readonly>
+                              </div>
+                            </td>
+                          </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--News Model-->
+    <div class="modal" id="newsInfo" tabindex="-1" data-bs-backdrop="false">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content shadow">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">News Headlines</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="news-content">
+                        <div class="row">
+                            <div id="news-info" class="overflow-auto"></div>
+                            <p id="noNews"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="js/jquery-2.2.3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+<script src="js/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-extra-markers/1.2.1/js/leaflet.extra-markers.js"></script>
+<script src="js/easy-button.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster-src.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>
