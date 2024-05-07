@@ -45,6 +45,7 @@ body {
   text-align: justify;
 }
 
+
 @media only screen and (max-width: 600px) {
   #selectCountry {
       width: 200px;
@@ -61,4 +62,17 @@ body {
   #selectCountry {
       width: 300px;
   }
+}
+
+#preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  z-index: 9999;
+  background-image: url('images/spinner.gif'); /* Replace 'loader.gif' with the path to your GIF file */
+  background-repeat: no-repeat;
+  background-position: center;
 }
