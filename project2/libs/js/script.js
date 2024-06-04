@@ -186,12 +186,12 @@ const createNewEmployee = (firstName, lastName, jobTitle, email, departmentID) =
 
             if (response.status.code == '200') {
                 alert('Employee added Successfully!');
-                $('#addPersonnelForm')[0].reset();
-
                 getEmployees();
             } else {
                 alert('Error: ' + response.status.description);
             }
+            $('#addPersonnelForm')[0].reset();
+
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert("Error occured while adding new employee " + textStatus);
@@ -322,6 +322,8 @@ const deleteDepartment = (id) => {
         data: { id },
         dataType: 'json',
         success: (response) => {
+            console.log(response);
+            console.log(id);
             if (response.status.code == '200') {
                 alert('Deleted successfully!');
                 getDepartments();

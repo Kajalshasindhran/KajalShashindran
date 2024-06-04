@@ -1,5 +1,6 @@
 <?php
-
+	ini_set('display_errors', 'On');
+	error_reporting(E_ALL);
 
 	$executionStartTime = microtime(true);
 
@@ -26,7 +27,7 @@
 	}	
 
 	$checkQuery = $conn->prepare('SELECT * FROM personnel WHERE departmentID = ?');
-	$checkQuery->bind_param("s", $_POST['departmentID']);
+	$checkQuery->bind_param("i", $_REQUEST['id']);
 	$checkQuery->execute();
 	$checkQuery->store_result();
 
@@ -50,7 +51,7 @@
 
 	$query = $conn->prepare('DELETE FROM department WHERE id = ?');
 	
-	$query->bind_param("i", $_POST['id']);
+	$query->bind_param("i", $_REQUEST['id']);
 
 	$query->execute();
 	
