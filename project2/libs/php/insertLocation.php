@@ -20,7 +20,7 @@ if (mysqli_connect_errno()) {
 }
 
 // Check for duplicate entry
-$checkQuery = $conn->prepare('SELECT * FROM location WHERE name = ?');
+$checkQuery = $conn->prepare('SELECT name FROM location WHERE name = ?');
 $checkQuery->bind_param("s", $_POST['name']);
 $checkQuery->execute();
 $checkQuery->store_result();

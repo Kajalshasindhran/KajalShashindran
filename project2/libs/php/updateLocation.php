@@ -1,9 +1,7 @@
 <?php
 
 	$executionStartTime = microtime(true);
-	
-	// this includes the login details
-	
+		
 	include("config.php");
 
 	header('Content-Type: application/json; charset=UTF-8');
@@ -26,11 +24,8 @@
 
 	}	
 
-	// SQL statement accepts parameters and so is prepared to avoid SQL injection.
-	// $_REQUEST used for development / debugging. Remember to change to $_POST for production
-
     // Check for duplicate entry
-    $checkQuery = $conn->prepare('SELECT * FROM location WHERE name = ?');
+    $checkQuery = $conn->prepare('SELECT name FROM location WHERE name = ?');
     $checkQuery->bind_param("s", $_POST['locationName']);
     $checkQuery->execute();
     $checkQuery->store_result();

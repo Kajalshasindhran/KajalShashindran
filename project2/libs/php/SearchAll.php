@@ -24,10 +24,11 @@
 
 	}	
 
+	$query = $conn->prepare('SELECT `p`.`id`, `p`.`firstName`, `p`.`lastName`, `p`.`email`, `p`.`jobTitle`, `d`.`id` as `departmentID`, `d`.`name` AS `departmentName`, `l`.`id` as `locationID`, `l`.`name` AS `locationName` FROM `personnel` `p` LEFT JOIN `department` `d` ON (`d`.`id` = `p`.`departmentID`) LEFT JOIN `location` `l` ON (`l`.`id` = `d`.`locationID`) WHERE `p`.`firstName` LIKE ? OR `p`.`lastName` LIKE ? OR `p`.`email` LIKE ? OR `p`.`jobTitle` LIKE ? OR `d`.`name` LIKE ? OR `l`.`name` LIKE ? ORDER BY `p`.`lastName`, `p`.`firstName`, `d`.`name`, `l`.`name`');
 
-	$query = $conn->prepare('SELECT `id`, `firstName`, `lastName`, `email`, `jobTitle`, `departmentID` FROM `personnel` WHERE `id` = ?');
+  	$likeText = "%" . $_POST['txt'] . "%";
 
-	$query->bind_param("i", $_POST['id']);
+  	$query->bind_param("ssssss", $likeText, $likeText, $likeText, $likeText, $likeText, $likeText);
 
 	$query->execute();
 	
@@ -48,40 +49,11 @@
     
 	$result = $query->get_result();
 
-   	$personnel = [];
+  $found = [];
 
 	while ($row = mysqli_fetch_assoc($result)) {
 
-		array_push($personnel, $row);
-
-	}
-
-	// second query - does not accept parameters and so is not prepared
-
-	$query = 'SELECT id, name from department ORDER BY name';
-
-	$result = $conn->query($query);
-	
-	if (!$result) {
-
-		$output['status']['code'] = "400";
-		$output['status']['name'] = "executed";
-		$output['status']['description'] = "query failed";	
-		$output['data'] = [];
-
-		mysqli_close($conn);
-
-		echo json_encode($output); 
-
-		exit;
-
-	}
-   
-   	$department = [];
-
-	while ($row = mysqli_fetch_assoc($result)) {
-
-		array_push($department, $row);
+		array_push($found, $row);
 
 	}
 
@@ -89,8 +61,7 @@
 	$output['status']['name'] = "ok";
 	$output['status']['description'] = "success";
 	$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
-	$output['data']['personnel'] = $personnel;
-	$output['data']['department'] = $department;
+	$output['data']['found'] = $found;
 	
 	mysqli_close($conn);
 

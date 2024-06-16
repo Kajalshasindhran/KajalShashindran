@@ -20,7 +20,7 @@ if (mysqli_connect_errno()) {
 }
 
 // Check for duplicate entry
-$checkQuery = $conn->prepare('SELECT * FROM personnel WHERE firstName = ? AND lastName = ? AND email = ?');
+$checkQuery = $conn->prepare('SELECT firstName, lastName, email FROM personnel WHERE firstName = ? AND lastName = ? AND email = ?');
 $checkQuery->bind_param("sss", $_POST['firstName'], $_POST['lastName'], $_POST['email']);
 $checkQuery->execute();
 $checkQuery->store_result();

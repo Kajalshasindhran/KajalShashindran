@@ -24,18 +24,13 @@
 
 	}	
 
-	// first query - SQL statement accepts parameters and so is prepared to avoid SQL injection.
-	// $_REQUEST used for development / debugging. Remember to change to $_POST for production
+	// SQL does not accept parameters and so is not prepared
 
-	$query = $conn->prepare('SELECT `p`.`id`, `p`.`firstName`, `p`.`lastName`, `p`.`email`, `p`.`jobTitle`, `d`.`id` as `departmentID`, `d`.`name` AS `department`, `l`.`id` as `locationID`, `l`.`name` AS `location` FROM `personnel` `p` LEFT JOIN `department` `d` ON (`d`.`id` = `p`.`departmentID`) LEFT JOIN `location` `l` ON (`l`.`id` = `d`.`locationID`) WHERE `p`.`firstName` LIKE ? OR `p`.`lastName` LIKE ? ORDER BY `p`.`lastName`');
+	$query = 'SELECT id, name, locationID FROM department';
 
-  	$likeText = "%" . $_POST['txt'] . "%";
-
-  	$query->bind_param("ss", $likeText, $likeText);
-
-	$query->execute();
+	$result = $conn->query($query);
 	
-	if (false === $query) {
+	if (!$result) {
 
 		$output['status']['code'] = "400";
 		$output['status']['name'] = "executed";
@@ -49,14 +44,12 @@
 		exit;
 
 	}
-    
-	$result = $query->get_result();
-
-  $found = [];
+   
+  $data = [];
 
 	while ($row = mysqli_fetch_assoc($result)) {
 
-		array_push($found, $row);
+		array_push($data, $row);
 
 	}
 
@@ -64,7 +57,7 @@
 	$output['status']['name'] = "ok";
 	$output['status']['description'] = "success";
 	$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
-	$output['data']['found'] = $found;
+	$output['data'] = $data;
 	
 	mysqli_close($conn);
 

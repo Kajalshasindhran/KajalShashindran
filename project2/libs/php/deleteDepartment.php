@@ -1,7 +1,5 @@
 <?php
-	ini_set('display_errors', 'On');
-	error_reporting(E_ALL);
-
+	
 	$executionStartTime = microtime(true);
 
 	include("config.php");
@@ -26,32 +24,9 @@
 
 	}	
 
-	$checkQuery = $conn->prepare('SELECT * FROM personnel WHERE departmentID = ?');
-	$checkQuery->bind_param("i", $_REQUEST['id']);
-	$checkQuery->execute();
-	$checkQuery->store_result();
-
-	if ($checkQuery->num_rows > 0) {
-    	$output['status']['code'] = "405";
-    	$output['status']['name'] = "Method Not Allowed";
-    	$output['status']['description'] = "department has dependencies";
-    	$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
-    	$output['data'] = [];
-
-    	$checkQuery->close();
-    	$conn->close();
-
-    	echo json_encode($output);
-    	exit;
-	}
-
-	$checkQuery->close();
-	// SQL statement accepts parameters and so is prepared to avoid SQL injection.
-	// $_REQUEST used for development / debugging. Remember to change to $_POST for production
-
 	$query = $conn->prepare('DELETE FROM department WHERE id = ?');
 	
-	$query->bind_param("i", $_REQUEST['id']);
+	$query->bind_param("i", $_POST['id']);
 
 	$query->execute();
 	

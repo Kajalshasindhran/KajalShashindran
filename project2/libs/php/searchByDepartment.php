@@ -24,13 +24,10 @@
 
 	}	
 
-	// first query - SQL statement accepts parameters and so is prepared to avoid SQL injection.
-	// $_REQUEST used for development / debugging. Remember to change to $_POST for production
-
-	$query = $conn->prepare('SELECT `d`.`id` as `departmentID`, `d`.`name` AS `department`, `l`.`id` as `locationID`, `l`.`name` AS `location` FROM `department` `d` LEFT JOIN `location` `l` ON (`l`.`id` = `d`.`locationID`) WHERE `d`.`name` LIKE ?');
+	$query = $conn->prepare('SELECT `d`.`id` as `departmentID`, `d`.`name` AS `departmentName`, `l`.`id` as `locationID`, `l`.`name` AS `locationName` FROM `department` `d` LEFT JOIN `location` `l` ON (`l`.`id` = `d`.`locationID`) WHERE `d`.`name` LIKE ? OR `l`.`name` LIKE ?');
   	$likeText = "%" . $_POST['txt'] . "%";
 
-  	$query->bind_param("s", $likeText);
+  	$query->bind_param("ss", $likeText, $likeText);
 
 	$query->execute();
 	

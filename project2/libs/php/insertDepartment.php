@@ -1,8 +1,5 @@
 <?php
 
-ini_set('display_errors', 'On');
-error_reporting(E_ALL);
-
 $executionStartTime = microtime(true);
 
 include("config.php");
@@ -23,7 +20,7 @@ if (mysqli_connect_errno()) {
 }
 
 // Check for duplicate entry
-$checkQuery = $conn->prepare('SELECT * FROM department WHERE locationID = ? AND name = ?');
+$checkQuery = $conn->prepare('SELECT d.name, d.locationID FROM department d WHERE d.locationID = ? AND d.name = ?');
 $checkQuery->bind_param("is", $_POST['locationID'], $_POST['name']);
 $checkQuery->execute();
 $checkQuery->store_result();
@@ -45,7 +42,7 @@ if ($checkQuery->num_rows > 0) {
 $checkQuery->close();
 
 //checks if department already exist in any location
-$checkQuery = $conn->prepare('SELECT * FROM department WHERE name = ?');
+$checkQuery = $conn->prepare('SELECT d.name FROM department d WHERE d.name = ?');
 $checkQuery->bind_param("s", $_POST['name']);
 $checkQuery->execute();
 $checkQuery->store_result();
@@ -58,7 +55,6 @@ if ($checkQuery->num_rows > 0) {
     $output['data'] = [];
 
     $checkQuery->close();
-
     $conn->close();
 
     echo json_encode($output);
