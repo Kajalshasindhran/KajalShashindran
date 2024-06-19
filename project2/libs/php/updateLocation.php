@@ -24,28 +24,7 @@
 
 	}	
 
-    // Check for duplicate entry
-    $checkQuery = $conn->prepare('SELECT name FROM location WHERE name = ?');
-    $checkQuery->bind_param("s", $_POST['locationName']);
-    $checkQuery->execute();
-    $checkQuery->store_result();
-
-    if ($checkQuery->num_rows > 0) {
-        $output['status']['code'] = "405";
-        $output['status']['name'] = "conflict";
-        $output['status']['description'] = "duplicate entry";
-        $output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
-        $output['data'] = [];
-
-        $checkQuery->close();
-        $conn->close();
-
-        echo json_encode($output);
-        exit;
-    }
-    $checkQuery->close();
-
-
+    
 	$query = $conn->prepare('UPDATE location SET name = ? WHERE id = ?');
 
 	$query->bind_param("si", $_POST['locationName'], $_POST['locationID']);
