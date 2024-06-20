@@ -747,8 +747,13 @@ $(document).ready(() => {
         $("#filterBtn").attr("disabled", true);
         getLocations();        
     });
-    
+
+
     $('#filterPersonnelModal').on('show.bs.modal', (e) => {
+
+        var currentfilterDepartmentSelect = $('#filterPersonnelByDepartment').val(); 
+        var currentfilterLocationSelect = $('#filterPersonnelByLocation').val(); 
+
         const $locSelect = $('#filterPersonnelByLocation');
         $locSelect.empty();
 
@@ -770,6 +775,10 @@ $(document).ready(() => {
             const $option = $('<option>').val(department.id).text(department.departmentName);
             $deptSelect.append($option);
         });
+
+        $('#filterPersonnelByDepartment').val(currentfilterDepartmentSelect);
+        $('#filterPersonnelByLocation').val(currentfilterLocationSelect);
+
     });
 
     //Inserting Functions
@@ -915,4 +924,5 @@ $(document).ready(() => {
         const locationId = $(this).val();
         filterEmployees(null, locationId);
     });
+
 });
