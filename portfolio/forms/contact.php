@@ -14,7 +14,7 @@ try {
     //$mail->SMTPDebug = 0;                                 
     //$mail->SMTPDebug = SMTP::DEBUG_SERVER;                     
     $mail->isSMTP();                                           
-    $mail->Host       = 'box5181.bluehost.com';          
+    $mail->Host       = 'box123.myhostingserver.com';          
     $mail->SMTPAuth   = true;                                   
     $mail->Username   = 'info@kajalshashindran.co.uk';                     
     $mail->Password   = '123456';                              
