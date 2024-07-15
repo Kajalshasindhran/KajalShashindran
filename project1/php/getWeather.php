@@ -5,7 +5,7 @@
 
 	$executionStartTime = microtime(true);
 
-  $url="https://api.weatherapi.com/v1/forecast.json?key=dbf617e8fd0b4661a3e131105240405&q=" . $_REQUEST['location'] . "&days=3";
+  $url="https://api.weatherapi.com/v1/forecast.json?key==" . $_REQUEST['location'] . "&days=3";
 
 	$ch = curl_init();
 

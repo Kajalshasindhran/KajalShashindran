@@ -4,7 +4,7 @@
 	header('Access-Control-Allow-Origin: *');	
 
 	$executionStartTime = microtime(true);
-    $url='https://openexchangerates.org/api/latest.json?app_id=de942c64b38e42398fccf0fcbab2a79d';
+    $url='https://openexchangerates.org/api/latest.json?app_id=';
 
 	$ch = curl_init();
 

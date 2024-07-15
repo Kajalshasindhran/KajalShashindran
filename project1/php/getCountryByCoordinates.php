@@ -1,10 +1,10 @@
 <?php
 if(isset($_REQUEST['lat'])  && isset($_REQUEST['long']) ){
 
-$url = "https://api.opencagedata.com/geocode/v1/json?q=". $_REQUEST['lat']. ",+" . $_REQUEST['long']. "&key=3743bcf7843e430b9f4dc55e0d0e4028"
+$url = "https://api.opencagedata.com/geocode/v1/json?q=". $_REQUEST['lat']. ",+" . $_REQUEST['long']. "&key="
 . "&language=en&pretty=1";
 }else{
-  $url = "https://api.opencagedata.com/geocode/v1/json?q=". $_REQUEST['country']. "&key=3743bcf7843e430b9f4dc55e0d0e4028" . "&language=en&pretty=1";
+  $url = "https://api.opencagedata.com/geocode/v1/json?q=". $_REQUEST['country']. "&key=" . "&language=en&pretty=1";
 }
 $executionStartTime = microtime(true);
 

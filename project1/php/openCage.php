@@ -5,7 +5,7 @@
 
     $executionStartTime = microtime(true);
     
-    $url = "https://api.opencagedata.com/geocode/v1/json?q=". $_REQUEST['lat']. "+" . $_REQUEST['lng']. "&key=3743bcf7843e430b9f4dc55e0d0e4028"
+    $url = "https://api.opencagedata.com/geocode/v1/json?q=". $_REQUEST['lat']. "+" . $_REQUEST['lng']. "&key="
         . "&language=en&pretty=1";
 
     $ch = curl_init();

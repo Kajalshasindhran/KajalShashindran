@@ -106,13 +106,6 @@ let overlays = {
 
 let layerControl = L.control.layers(basemaps, overlays).addTo(map);
 
-window.addEventListener("load", function() {
-    var preloader = document.getElementById("preloader");
-    setTimeout(function() {
-      preloader.style.display = "none";
-    }, 1000);
-  });
-
 const getCountry = () => {
     $.ajax({
         type: "GET",
@@ -479,6 +472,8 @@ getHospital = (countryCodeHospital) => {
                 var marker = L.marker([hospitalLat, hospitalLng], { icon: hospitalIcon }).addTo(hospitalMarkerCluster);
                 marker.bindTooltip(hospitalname).openPopup();
             }
+            $('#preloader').fadeOut('slow');
+
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert("Error occurred while fetching hospitals: " + textStatus);
@@ -487,8 +482,18 @@ getHospital = (countryCodeHospital) => {
     });
 };
 
+window.addEventListener("load", function() {
+    var preloader = document.getElementById("preloader");
+    setTimeout(function() {
+      preloader.style.display = "none";
+    }, 5000);
+});
+
 
 $(document).ready(() => {
+
+    $('#preloader').show();
+
 
     L.easyButton("fa-circle-info", (btn, map) => {
         if ($("#selectCountry").val() === "") {

@@ -4,7 +4,7 @@
 	header('Access-Control-Allow-Origin: *');
 
     $executionStartTime = microtime(true);
-    $url ="https://newsapi.org/v2/top-headlines?country=". $_REQUEST['countryCode']."&apiKey=d1e1120cdfa049c586d9e776487b7ca7";
+    $url ="https://newsapi.org/v2/top-headlines?country=". $_REQUEST['countryCode']."&apiKey=";
 
 	$ch = curl_init();
 
